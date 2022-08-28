@@ -18,6 +18,7 @@ app.use(express.json());
 
 //Route Middlewares
 app.use("/api/user", require("./routes/auth"));
+app.use("/api/profile", require("./routes/profile"));
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");

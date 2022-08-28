@@ -2,9 +2,16 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 // const Message = require("./Message")
 
-const userSchema = new mongoose.Schema({
+const urlCheck = (val) => {
+	for(let i = 0; i < val.length; i++){
+		if(!validator.isURL(val[i])) return false
+	}
+}
+
+const profileSchema = new mongoose.Schema({
   loginId: {
-    type: mongoose.Schema.Types.ObjectId,
+    // type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
   email: {
@@ -24,12 +31,12 @@ const userSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  age: {
-    type: Number,
-    required: true,
-    min: 18,
-    max: 120,
-  },
+  //   age: {
+  //     type: Number,
+  //     required: true,
+  //     min: 18,
+  //     max: 120,
+  //   },
   gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
   sexualOrientation: {
     type: String,
@@ -45,8 +52,9 @@ const userSchema = new mongoose.Schema({
     length: 10,
     trim: true,
   },
-  photo: {
-    type: [validator.isURL, "Not an url"],
+  photos: {
+    type: [String],
+    validate: [urlCheck, "Not an url"] ,
   },
   minDist: {
     type: Number,
@@ -91,4 +99,4 @@ const userSchema = new mongoose.Schema({
   //   }
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Profile", profileSchema);
