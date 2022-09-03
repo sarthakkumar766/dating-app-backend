@@ -12,4 +12,6 @@ router
 
 router.route("/image").post(profileController.addImages);
 
+router.route("/allInterests").get(profileController.getAllInterests)
+
 module.exports = router;

@@ -16,6 +16,10 @@ connectDB();
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 //Route Middlewares
 app.use("/api/user", require("./routes/auth"));
 app.use("/api/profile", require("./routes/profile"));

@@ -10,7 +10,7 @@ const getAccessToken = (foundUser) => {
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "1m" }
+    { expiresIn: "50m" }
   );
 };
 
@@ -33,7 +33,8 @@ const register = async (req, res) => {
   }
 
   const emailExists = await User.findOne({ email });
-  if (emailExists) return res.status(409).send("Email already exists");
+  if (emailExists)
+    return res.status(409).json({ message: "Email already exists" });
 
   // Hash password
   const hashedPwd = await bcrypt.hash(password, 10); // salt rounds
@@ -44,11 +45,13 @@ const register = async (req, res) => {
   });
   try {
     const savedUser = await user.save();
-    if (!savedUser) res.status(400).json({ message: "Invalid user data received" });
+    if (!savedUser)
+      res.status(400).json({ message: "Invalid user data received" });
     const accessToken = getAccessToken(savedUser);
     const refreshToken = getRefreshToken(savedUser);
+    const profileData = savedUser.profileData;
 
-    res.json({ accessToken, refreshToken });
+    res.status(200).json({ accessToken, refreshToken, profileData });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -64,17 +67,19 @@ const login = async (req, res) => {
 
   const foundUser = await User.findOne({ email });
   if (!foundUser) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Incorrect email or password" });
   }
 
   const match = await bcrypt.compare(password, foundUser.password);
 
-  if (!match) return res.status(401).json({ message: "Unauthorized" });
+  if (!match)
+    return res.status(401).json({ message: "Incorrect email or password" });
 
   const accessToken = getAccessToken(foundUser);
   const refreshToken = getRefreshToken(foundUser);
+  const profileData = foundUser.profileData;
 
-  res.json({ accessToken, refreshToken });
+  res.json({ accessToken, refreshToken, profileData });
 
   //   // Create secure cookie with refresh token
   //   res.cookie("jwt", refreshToken, {
@@ -108,7 +113,8 @@ const refresh = async (req, res) => {
       const foundUser = await User.findOne({ email });
       if (!foundUser) return res.status(401).json({ message: "Unauthorized" });
       const accessToken = getAccessToken(foundUser);
-      res.json({ accessToken });
+      const profileData = foundUser.profileData;
+      res.json({ accessToken, profileData });
     }
   );
 

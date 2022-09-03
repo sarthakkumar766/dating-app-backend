@@ -1,10 +1,10 @@
 const Profile = require("../models/Profile");
-
+const { interestsArr } = require("../data/hardcodedValues");
 const getProfileData = (req, res) => {
   const {} = req.body;
 };
 
-const setProfileData = async(req, res) => {
+const setProfileData = async (req, res) => {
   const loginId = "id1";
   const { email, firstName, birthdate, gender, sexualOrientation, interests } =
     req.body;
@@ -31,8 +31,20 @@ const updateProfileData = (req, res) => {
   const {} = req.body;
 };
 
-const addImages = (req, res) => {
+const addImages = (req, res) => {};
 
-}
+const getAllInterests = (req, res) => {
+  const allInterests = interestsArr();
+  console.log(allInterests);
+  allInterests.length > 0
+    ? res.send(allInterests)
+    : res.status(500).send({ message: "Error" });
+};
 
-module.exports = { getProfileData, setProfileData, updateProfileData, addImages };
+module.exports = {
+  getProfileData,
+  setProfileData,
+  updateProfileData,
+  addImages,
+  getAllInterests,
+};
