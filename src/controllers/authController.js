@@ -10,7 +10,7 @@ const getAccessToken = (foundUser) => {
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "50m" }
+    { expiresIn: "30s" }
   );
 };
 
@@ -100,6 +100,7 @@ const login = async (req, res) => {
 };
 
 const refresh = async (req, res) => {
+  console.log("called refresh");
   const { refreshToken } = req.body;
 
   if (!refreshToken) return res.status(401).json({ message: "Unauthorized" });

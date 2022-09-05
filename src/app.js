@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+// const cors = require("cors")
 
 //Import config conn
 const connectDB = require("./config/dbConn");
@@ -15,6 +16,7 @@ const port = process.env.PORT || 3500;
 connectDB();
 
 app.use(express.json());
+// app.use(cors())
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
