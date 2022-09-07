@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    imageData: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     // Make Mongoose use Unix time (seconds since Jan 1, 1970)

@@ -3,17 +3,17 @@ const validator = require("validator");
 // const Message = require("./Message")
 
 const urlCheck = (val) => {
-	for(let i = 0; i < val.length; i++){
-		if(!validator.isURL(val[i])) return false
-	}
-}
+  for (let i = 0; i < val.length; i++) {
+    if (!validator.isURL(val[i])) return false;
+  }
+};
 
 const profileSchema = new mongoose.Schema({
-  loginId: {
-    // type: mongoose.Schema.Types.ObjectId,
-    type: String,
-    required: true,
-  },
+  //   loginId: {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     // type: String,
+  //     required: true,
+  //   },
   email: {
     type: String,
     trim: true,
@@ -27,7 +27,7 @@ const profileSchema = new mongoose.Schema({
     trim: true,
     required: "First Name is required",
   },
-  birthdate: {
+  birthDate: {
     type: Date,
     required: true,
   },
@@ -40,7 +40,12 @@ const profileSchema = new mongoose.Schema({
   gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
   sexualOrientation: {
     type: String,
-    enum: ["Straight", "Gay | Lesbian", "Bisexual"],
+    enum: ["Straight", "Homosexual", "Bisexual"],
+    required: true,
+  },
+  privateSexualOrientation: {
+    type: Boolean,
+    default: false,
     required: true,
   },
   interests: {
@@ -54,7 +59,7 @@ const profileSchema = new mongoose.Schema({
   },
   photos: {
     type: [String],
-    validate: [urlCheck, "Not an url"] ,
+    validate: [urlCheck, "Not an url"],
   },
   minDist: {
     type: Number,
