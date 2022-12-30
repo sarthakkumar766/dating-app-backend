@@ -89,7 +89,9 @@ const updateProfileData = (req, res) => {
   const {} = req.body;
 };
 
-const addImages = (req, res) => {};
+const addImages = (req, res) => {
+	
+};
 
 const getAllInterests = (req, res) => {
   const allInterests = interestsArr();
